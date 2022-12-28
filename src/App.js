@@ -13,6 +13,15 @@ function App() {
   // No of Records to be displayed on each page
   const [recordsPerPage] = useState(10)
 
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage
+
+  // Records to be desplayed on the current page
+  const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord)
+
+  // calculates the number of pages
+  const nPages = Math.ceil(data.length /recordsPerPage)
+
   useEffect(() => {
     axios("http://localhost:3002/MOCK_DATA.json")
       .then((res) => {
@@ -32,7 +41,7 @@ function App() {
 
   return (
     <div className="container">
-      <Records data={data}/>
+      <Records data={currentRecords}/>
     </div>
   );
 }

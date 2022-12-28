@@ -12,8 +12,8 @@ const Records = ({ data }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
-          <tr>
+        {data.map((item, idx) => (
+          <tr key={idx}>
             <td>{item.id}</td>
             <td>{item.first_name}</td>
             <td>{item.last_name}</td>
