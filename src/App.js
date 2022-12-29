@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "./App.css";
+import Pagination from "./components/Pagination";
 import Records from "./components/Records";
 
 function App() {
@@ -9,21 +10,21 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   // User is currently on this page
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
   // No of Records to be displayed on each page
-  const [recordsPerPage] = useState(10)
+  const [recordsPerPage] = useState(10);
 
   const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
   // Records to be desplayed on the current page
-  const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord)
+  const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
 
   // calculates the number of pages
-  const nPages = Math.ceil(data.length /recordsPerPage)
+  const nPages = Math.ceil(data.length / recordsPerPage);
 
   useEffect(() => {
-    axios("http://localhost:3002/MOCK_DATA.json")
+    axios("http://localhost:3000/MOCK_DATA.json")
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -38,10 +39,14 @@ function App() {
       });
   }, []);
 
-
   return (
     <div className="container">
-      <Records data={currentRecords}/>
+      { loading ? "Loading" : <Records data={currentRecords} />}
+      <Pagination
+        nPages={nPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }
